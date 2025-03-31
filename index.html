@@ -12,6 +12,10 @@
             height: 100vh;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         #game-container {
@@ -168,7 +172,7 @@
         
         <div id="start-screen">
             <h2>Lost Duck</h2>
-            <p>Click or press Spacebar to fly</p>
+            <p>Tap, click or press Spacebar to fly</p>
             <button id="start-button">Start Game</button>
         </div>
         
@@ -213,8 +217,12 @@
             }
         }
         
-        // Handle user input
+        // Handle user input - supports mouse, touch, and keyboard
         document.addEventListener('click', jump);
+        document.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Prevent scrolling when touching the canvas
+            jump();
+        }, { passive: false });
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 jump();
