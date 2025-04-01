@@ -1,7 +1,30 @@
-<!DOCTYPE html>
+window.addEventListener('load', function() {
+        // Set proper initial size for mobile devices
+        adjustGameContainer();
+    });
+
+    window.addEventListener('resize', adjustGameContainer);
+
+    function adjustGameContainer() {
+        const gameContainer = document.getElementById('game-container');
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        
+        // Adjust the container size based on the device orientation and screen size
+        if (windowWidth < windowHeight) {
+            // Portrait mode
+            gameContainer.style.width = '90vw';
+            gameContainer.style.height = '70vh';
+        } else {
+            // Landscape mode
+            gameContainer.style.width = '60vw';
+            gameContainer.style.height = '85vh';
+        }
+    }<!DOCTYPE html>
 <html>
 <head>
     <title>Lost Duck</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         body {
             margin: 0;
@@ -20,8 +43,10 @@
         
         #game-container {
             position: relative;
-            width: 400px;
-            height: 600px;
+            width: 90vw;
+            max-width: 400px;
+            height: 80vh;
+            max-height: 600px;
             overflow: hidden;
             background-color: #70c5ce;
             border: 2px solid #333;
@@ -77,8 +102,10 @@
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 28px;
+            font-size: 24px;
             text-align: center;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         
         #restart-button {
@@ -108,8 +135,10 @@
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 28px;
+            font-size: 24px;
             text-align: center;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         
         #start-button {
@@ -188,6 +217,30 @@
     </div>
 
     <script>
+        window.addEventListener('load', function() {
+            // Set proper initial size for mobile devices
+            adjustGameContainer();
+        });
+
+        window.addEventListener('resize', adjustGameContainer);
+
+        function adjustGameContainer() {
+            const gameContainer = document.getElementById('game-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // Adjust the container size based on the device orientation and screen size
+            if (windowWidth < windowHeight) {
+                // Portrait mode
+                gameContainer.style.width = '90vw';
+                gameContainer.style.height = '70vh';
+            } else {
+                // Landscape mode
+                gameContainer.style.width = '60vw';
+                gameContainer.style.height = '85vh';
+            }
+        }
+        
         // Game elements
         const bird = document.getElementById('bird');
         const gameContainer = document.getElementById('game-container');
