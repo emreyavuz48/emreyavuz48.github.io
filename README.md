@@ -1,2 +1,2 @@
 # emreyavuz48.github.io
-LostDuck Game
+Emre Yavuz LostDuck Game
