@@ -90,6 +90,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
         #restart-button:hover {
@@ -119,6 +121,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
         #start-button:hover {
@@ -361,8 +365,21 @@
             startGame();
         });
         
+        // Add touch event to restart button for mobile devices
+        restartButton.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent default touch behavior
+            gameOverScreen.style.display = 'none';
+            startGame();
+        }, { passive: false });
+        
         // Start button handler
         startButton.addEventListener('click', startGame);
+        
+        // Add touch event to start button for mobile devices
+        startButton.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent default touch behavior
+            startGame();
+        }, { passive: false });
     </script>
 </body>
 </html>
