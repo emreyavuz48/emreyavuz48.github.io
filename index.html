@@ -1,85 +1,7 @@
-// Handle user input for jumping
-        document.addEventListener('click', function(e) {
-            // Ignore clicks on buttons and the pause button
-            if (e.target.tagName !== 'BUTTON' && 
-                !e.target.closest('#pause-button') && 
-                !pauseButton.contains(e.target)) {
-                jump();
-            }
-        });
-        
-        document.addEventListener('touchstart', function(e) {
-            // Ignore touches on buttons and the pause button
-            if (e.target.tagName !== 'BUTTON' && 
-                !e.target.closest('#pause-button') && 
-                !pauseButton.contains(e.target)) {
-                e.preventDefault();
-                jump();
-            }
-        }, { passive: false });        <div id="pause-button">
-            <span></span>
-            <span></span>
-        </div>
-        
-        <div id="pause-screen">
-            <h2>Paused</h2>
-            <button id="resume-button">Resume</button>
-        </div>        #pause-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 100;
-            border: none;
-            outline: none;
-        }
-        
-        #pause-button span {
-            width: 5px;
-            height: 20px;
-            background-color: white;
-            margin: 0 3px;
-        }
-        
-        #pause-screen {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 28px;
-            text-align: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-            z-index: 200;
-        }
-        
-        #resume-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #73bf2e;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Mountain Bluebird</title>
+    <title>Lost Duck</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         html, body {
@@ -88,7 +10,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #70c5ce; /* Same as game background */
+            background-color: #70c5ce;
             font-family: Arial, sans-serif;
             touch-action: manipulation;
             -webkit-touch-callout: none;
@@ -96,83 +18,55 @@
             user-select: none;
         }
         
-        /* Hide scrollbars */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
-        * {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        /* Make sure the game covers the entire viewport */
         #game-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            position: relative;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            background-color: #70c5ce;
-            z-index: 10;
         }
         
         #bird {
             position: absolute;
             width: 60px;
             height: 45px;
-            background-color: #56a0d3; /* Mountain Bluebird blue */
-            border-radius: 50% 60% 35% 50%;
+            background-color: #ffdb58;
+            border-radius: 40% 60% 60% 40%;
             left: 20%;
             top: 50%;
             transform: translateY(-50%);
             z-index: 10;
         }
         
-        /* Add a small white patch for the bluebird's belly */
         #bird::before {
             content: '';
             position: absolute;
-            width: 22px;
-            height: 8px;
-            background-color: #333333; /* Darker beak */
+            width: 25px;
+            height: 12px;
+            background-color: #ff8c00;
             border-radius: 40% 60% 60% 40%;
-            top: 17px;
-            left: -10px;
-        }
-        
-        /* Add the white belly */
-        #bird-belly {
-            position: absolute;
-            width: 35px;
-            height: 25px;
-            background-color: white;
-            border-radius: 50%;
-            bottom: 0;
-            left: 15px;
-            z-index: 11;
+            top: 13px;
+            left: -12px;
         }
         
         #bird::after {
             content: '';
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background-color: black;
             border-radius: 50%;
-            top: 12px;
+            top: 9px;
             left: 18px;
         }
         
         .wing {
             position: absolute;
-            width: 28px;
-            height: 22px;
-            background-color: #3b82c4; /* Darker blue for the wing */
-            border-radius: 50% 60% 40% 40%;
-            top: 18px;
-            left: 25px;
+            width: 20px;
+            height: 25px;
+            background-color: #e6c35c;
+            border-radius: 50% 50% 20% 20%;
+            top: 6px;
+            left: 30px;
             transform-origin: left center;
             animation: flapWings 0.3s infinite alternate;
         }
@@ -206,18 +100,6 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 0 #000;
-            z-index: 100;
-        }
-        
-        #game-title {
-            position: absolute;
-            top: 10px;
-            width: 100%;
-            text-align: center;
             font-size: 24px;
             font-weight: bold;
             color: white;
@@ -278,15 +160,11 @@
 </head>
 <body>
     <div id="game-container">
-        <div id="bird">
-            <div class="wing"></div>
-            <div id="bird-belly"></div>
-        </div>
+        <div id="bird"><div class="wing"></div></div>
         <div id="score-display">Score: 0</div>
-        <div id="game-title">Mountain Bluebird</div>
         
         <div id="start-screen">
-            <h2>Mountain Bluebird</h2>
+            <h2>Lost Duck</h2>
             <p>Tap, click or press Spacebar to fly</p>
             <button id="start-button">Start Game</button>
         </div>
@@ -307,14 +185,10 @@
         const restartButton = document.getElementById('restart-button');
         const startScreen = document.getElementById('start-screen');
         const startButton = document.getElementById('start-button');
-        const pauseButton = document.getElementById('pause-button');
-        const pauseScreen = document.getElementById('pause-screen');
-        const resumeButton = document.getElementById('resume-button');
         
         // Game variables
         let gameStarted = false;
         let gameOver = false;
-        let gamePaused = false;
         let birdY = 0;
         let birdVelocity = 0;
         let gravity = 0.5;
@@ -362,55 +236,20 @@
                 return;
             }
             
-            if (!gameOver && !gamePaused) {
+            if (!gameOver) {
                 birdVelocity = -10;
             }
         }
         
-        // Function to pause game
-        function pauseGame() {
-            if (gameStarted && !gameOver && !gamePaused) {
-                gamePaused = true;
-                clearInterval(pipeInterval);
-                cancelAnimationFrame(animationFrame);
-                pauseScreen.style.display = 'flex';
-            }
-        }
-        
-        // Function to resume game
-        function resumeGame() {
-            if (gamePaused) {
-                gamePaused = false;
-                pauseScreen.style.display = 'none';
-                pipeInterval = setInterval(generatePipe, 2000);
-                gameLoop();
-            }
-        }
-        
-        // Pause button handler
-        pauseButton.addEventListener('click', pauseGame);
-        pauseButton.addEventListener('touchstart', (e) => {
+        // Handle user input - supports mouse, touch, and keyboard
+        document.addEventListener('click', jump);
+        document.addEventListener('touchstart', function(e) {
             e.preventDefault();
-            pauseGame();
+            jump();
         }, { passive: false });
-        
-        // Resume button handler
-        resumeButton.addEventListener('click', resumeGame);
-        resumeButton.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            resumeGame();
-        }, { passive: false });
-        
-        // Add keyboard controls for pause
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 jump();
-            } else if (e.code === 'Escape' || e.code === 'KeyP') {
-                if (gamePaused) {
-                    resumeGame();
-                } else {
-                    pauseGame();
-                }
             }
         });
         
@@ -418,13 +257,11 @@
         function startGame() {
             gameStarted = true;
             gameOver = false;
-            gamePaused = false;
             initializeBird();
             birdVelocity = 0;
             score = 0;
             scoreDisplay.textContent = 'Score: ' + score;
             startScreen.style.display = 'none';
-            pauseButton.style.display = 'flex';
             
             // Clear existing pipes
             pipes.forEach(pipe => {
@@ -536,12 +373,10 @@
         // End the game
         function endGame() {
             gameOver = true;
-            gamePaused = false;
             clearInterval(pipeInterval);
             cancelAnimationFrame(animationFrame);
             finalScore.textContent = 'Score: ' + score;
             gameOverScreen.style.display = 'flex';
-            pauseButton.style.display = 'none';
         }
         
         // Restart button handler
@@ -571,7 +406,6 @@
             initializeBird();
             createClouds();
             createGround();
-            pauseButton.style.display = 'none'; // Hide pause button initially
         });
     </script>
 </body>
